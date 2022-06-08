@@ -54,7 +54,7 @@ proj = {
     "solution.concentration_mg_ml": True, 
     "solution.solvent.name": True,
     "substrate.surface_modification": True,
-    "solution.polymer": True,
+    "solution.polymer.semiconductor": True,
     "coating_process.deposition_method": True,
     "substrate.electrode_config": True
 }   
@@ -63,23 +63,24 @@ df_1 = read_mongo(uri, db, collection, q1, proj)
 # print(df_1)
 
 continuous_vars = [
-    'solution.polymer.Mn_kDa',
-    'solution.polymer.Mw_kDa', 
-    'solution.polymer.PDI', 
+    'solution.polymer.semiconductor.Mn_kDa',
+    'solution.polymer.semiconductor.Mw_kDa', 
+    'solution.polymer.semiconductor.PDI', 
     'solution.concentration_mg_ml'
 ]
+
 categorical_vars = [
     'solution.solvent.name', 
     'coating_process.deposition_method', 
     'substrate.surface_modification', 
-    'solution.polymer.name', 
+    'solution.polymer.semiconductor.name', 
     'substrate.electrode_config'
 ]
 
 
 
 # q4_vars = ['solvent_name', 'deposition_method', 'surface_treatment', 'electrode_config']
-polymer_names = ['P3HT', 'DPP-DTT']
+polymer_names = ['P3HT']
 
 app.layout = html.Div([
 
@@ -93,7 +94,7 @@ app.layout = html.Div([
                 dcc.Dropdown(
                     id='xaxis-column',
                     options=[{'label': i, 'value': i} for i in continuous_vars],
-                    value='solution.polymer.Mw_kDa'
+                    value='solution.polymer.semiconductor.Mw_kDa'
                 ),
             ], style={'width': '45%', 'display': 'inline-block'}),
             html.Div([
