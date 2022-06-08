@@ -16,8 +16,6 @@ app = dash.Dash(__name__)
 
 # mongo connection details
 
-#rahul is a little bitch
-
 uri = "mongodb+srv://aliu319:LO9UfXxBfDEPPfcQ@aliu319-gt.t7rt0.mongodb.net/test?retryWrites=true&w=majority"
 db = "ofet-db"
 collection = "devices"
