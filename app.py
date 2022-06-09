@@ -2,15 +2,15 @@
 # visit http://127.0.0.1:8050/ in your web browser.
 
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from pandas.core.arrays import categorical
 import plotly.express as px
 import pandas as pd
 import pymongo
 from pymongo import MongoClient
 from dash.dependencies import Input, Output
-import dash_table
+from dash import dash_table
 from crud_functions import *
 #
 app = dash.Dash(__name__)
@@ -19,64 +19,22 @@ app = dash.Dash(__name__)
 
 uri = "mongodb+srv://aliu319:LO9UfXxBfDEPPfcQ@aliu319-gt.t7rt0.mongodb.net/test?retryWrites=true&w=majority"
 db = "ofet-db"
-collection = "devices"
-
-def _connect_mongo(uri, db):
-    """ A util for making a connection to mongo """
-
-    conn = MongoClient(uri)
-    return conn[db]
-
-def read_mongo(uri, db, collection, query={}, proj={}):
-    """ Read from Mongo and Store into DataFrame """
-
-    # Connect to MongoDB
-    db = _connect_mongo(uri=uri, db=db)
-
-    # Make a query to the specific DB and Collection
-    cursor = db[collection].find(query, proj)
-
-    # Expand the cursor and construct the DataFrame
-    docs =  list(cursor)
-    df_flat = pd.json_normalize(docs)
-    # Delete the _id
-    # if no_id:
-        # del df['_id']
-
-    return df_flat
+collection = "sandbox"
 
 
 ### QUERIES ###
 
 q1 = {}
 proj = {
-    "_id": False, 
-    "ofet.mobility_cm2_Vs": True, 
-    "solution.concentration_mg_ml": True, 
-    "solution.solvent.name": True,
-    "substrate.surface_modification": True,
-    "solution.polymer.semiconductor": True,
-    "coating_process.deposition_method": True,
-    "substrate.electrode_config": True
+    "_id": False
 }   
-
-df_1 = read_mongo(uri, db, collection, q1, proj)
+docs = read_mongo_docs(uri, db, collection, q1, proj)
+df = pd.json_normalize(docs)
 # print(df_1)
 
-continuous_vars = [
-    'solution.polymer.semiconductor.Mn_kDa',
-    'solution.polymer.semiconductor.Mw_kDa', 
-    'solution.polymer.semiconductor.PDI', 
-    'solution.concentration_mg_ml'
-]
+continuous_vars = df[df.columns[df.dtypes == 'float64']]
 
-categorical_vars = [
-    'solution.solvent.name', 
-    'coating_process.deposition_method', 
-    'substrate.surface_modification', 
-    'solution.polymer.semiconductor.name', 
-    'substrate.electrode_config'
-]
+categorical_vars = df[df.columns[df.dtypes == 'object']]
 
 
 
@@ -99,11 +57,27 @@ app.layout = html.Div([
                 ),
             ], style={'width': '45%', 'display': 'inline-block'}),
             html.Div([
+                html.Label('y-axis'),
+                dcc.Dropdown(
+                    id='yaxis-column',
+                    options=[{'label': i, 'value': i} for i in continuous_vars],
+                    value='ofet.mobility_cm2_Vs'
+                ),
+            ], style={'width': '45%', 'display': 'inline-block'}),
+            html.Div([
                 html.Label('Legend'),
                 dcc.Dropdown(
                     id='mobility-legend',
                     options=[{'label': i, 'value': i} for i in categorical_vars],
                     value='solution.solvent.name'
+                ),
+            ], style={'width': '45%', 'display': 'inline-block'}),
+            html.Div([
+                html.Label('y-axis scale'),
+                dcc.Dropdown(
+                    id='yscale',
+                    options=['linear', 'log'],
+                    value='log'
                 ),
             ], style={'width': '45%', 'display': 'inline-block'}),
             
@@ -128,16 +102,18 @@ app.layout = html.Div([
 @app.callback(
     Output('mobility-graph', 'figure'),
     Input('xaxis-column', 'value'),
+    Input('yaxis-column', 'value'),
+    Input('yscale', 'value'),
     Input('mobility-legend', 'value'))
-def update_graph(xaxis_column_name, legend):
+def update_graph(xaxis_column_name, yaxis_column_name, yscale, legend):
 
     fig = px.scatter(
-        df_1,
+        df,
         x=xaxis_column_name,
-        y='ofet.mobility_cm2_Vs',
+        y=yaxis_column_name,
         color=legend
     )
-    fig.update_yaxes(type='log')
+    fig.update_yaxes(type=yscale)
     fig.update_layout(margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest')
 
 
