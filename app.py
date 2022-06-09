@@ -11,6 +11,7 @@ import pymongo
 from pymongo import MongoClient
 from dash.dependencies import Input, Output
 import dash_table
+from crud_functions import *
 #
 app = dash.Dash(__name__)
 
