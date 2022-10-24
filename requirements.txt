@@ -1,24 +1,24 @@
-Brotli @ file:///D:/bld/brotli-split_1648883782420/work
-click @ file:///D:/bld/click_1651215332191/work
-colorama @ file:///home/conda/feedstock_root/build_artifacts/colorama_1602866480661/work
-dash @ file:///home/conda/feedstock_root/build_artifacts/dash_1652328999420/work
-dash-core-components @ file:///home/conda/feedstock_root/build_artifacts/dash-core-components_1645162191927/work
-dash-html-components @ file:///home/conda/feedstock_root/build_artifacts/dash-html-components_1645162180756/work
-dash-table @ file:///home/conda/feedstock_root/build_artifacts/dash-table_1645162199872/work
+Brotli
+click
+colorama
+dash
+dash-core-components
+dash-html-components
+dash-table
 dnspython==2.2.1
-Flask @ file:///home/conda/feedstock_root/build_artifacts/flask_1651670959703/work
-Flask-Compress @ file:///home/conda/feedstock_root/build_artifacts/flask-compress_1651163502372/work
-importlib-metadata @ file:///D:/bld/importlib-metadata_1653252994979/work
-itsdangerous @ file:///home/conda/feedstock_root/build_artifacts/itsdangerous_1648147185463/work
-Jinja2 @ file:///home/conda/feedstock_root/build_artifacts/jinja2_1654302431367/work
-MarkupSafe @ file:///D:/bld/markupsafe_1648737731599/work
-numpy @ file:///D:/bld/numpy_1653325554875/work
-pandas @ file:///D:/bld/pandas_1653497263811/work
-plotly @ file:///home/conda/feedstock_root/build_artifacts/plotly_1654711674484/work
+Flask
+Flask-Compress
+importlib-metadata
+itsdangerous
+Jinja2
+MarkupSafe
+numpy
+pandas
+plotly
 pymongo==4.1.1
-python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1626286286081/work
-pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1647961439546/work
-six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
-tenacity @ file:///home/conda/feedstock_root/build_artifacts/tenacity_1626090218611/work
-Werkzeug @ file:///home/conda/feedstock_root/build_artifacts/werkzeug_1651670883478/work
-zipp @ file:///home/conda/feedstock_root/build_artifacts/zipp_1649012893348/work
+python-dateutil
+pytz
+six
+tenacity
+Werkzeug
+zipp
